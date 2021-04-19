@@ -6,6 +6,12 @@ This library is part of the [Merritt Preservation System](https://github.com/CDL
 
 This library interpets Merritt inventory specific data stored in a Zookeeper queue.
 
+## Dependencies
+
+This code depends on the following Merritt Libraries.
+- [Merritt Core Library](https://github.com/CDLUC3/mrt-core2)
+- [CDL Zookeeper Library](https://github.com/CDLUC3/cdl-zk-queue)
+
 ## Used By
 
 This code is used by.
