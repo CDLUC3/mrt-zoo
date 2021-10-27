@@ -238,7 +238,7 @@ public abstract class ZooHandlerAbs
         try {
             logger.logError("Item miss:" + dumpItem(item), 0);
             DistributedQueue queue = zooQueue.getQueue();
-            queue.delete(item.getId());
+            queue.deletep(item.getId());
             return;
             
             
