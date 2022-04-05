@@ -29,31 +29,6 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.jolbox</groupId>
-      <artifactId>bonecp</artifactId>
-      <!--version>0.7.2-SNAPSHOT</version-->
-        <version>0.7.1-rc3</version>
-    </dependency>
-
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.16</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.mail</groupId>
-      <artifactId>mail</artifactId>
-      <version>1.4.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
-    </dependency>
-
-    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.5</version>
@@ -61,33 +36,25 @@
     </dependency>
 
     <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-      <version>4.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpcore</artifactId>
-      <version>4.0.1</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpmime</artifactId>
-      <version>4.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.apache.tika</groupId>
-      <artifactId>tika-core</artifactId>
-      <version>1.17</version>
-    </dependency>
-
-    <dependency>
       <groupId>org.apache.zookeeper</groupId>
       <artifactId>zookeeper</artifactId>
       <version>3.3.3</version>
+      <!-- we can drop these exclusions if we update version to 3.4.9 or higher -->
+      <!-- https://crunchify.com/maven-artifacts-error-jms-jmxtools-jmxri-dependencies -->
+      <exclusions>
+        <exclusion>
+          <groupId>com.sun.jmx</groupId>
+          <artifactId>jmxri</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.sun.jdmk</groupId>
+          <artifactId>jmxtools</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>javax.jms</groupId>
+          <artifactId>jms</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -100,12 +67,6 @@
       <groupId>org.cdlib.mrt</groupId>
       <artifactId>mrt-core</artifactId>
       <version>2.0-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-      <version>2.11.0</version>
     </dependency>
   </dependencies>
   
@@ -122,6 +83,59 @@
 
 </project>
 
+
+
+
+<!--
+[INFO] - maven-dependency-plugin:2.1:analyze (default-cli) @ mrt-zoopub-src -
+[WARNING] Unused declared dependencies found:
+[WARNING]    com.jolbox:bonecp:jar:0.7.1-rc3:compile
+[WARNING]    log4j:log4j:jar:1.2.16:compile
+[WARNING]    javax.mail:mail:jar:1.4.1:compile
+[WARNING]    javax.servlet:servlet-api:jar:2.5:compile
+[WARNING]    junit:junit:jar:4.5:test
+[WARNING]    org.apache.httpcomponents:httpclient:jar:4.0:compile
+[WARNING]    org.apache.httpcomponents:httpcore:jar:4.0.1:compile
+[WARNING]    org.apache.httpcomponents:httpmime:jar:4.0:compile
+[WARNING]    org.apache.tika:tika-core:jar:1.17:compile
+[WARNING]    xerces:xercesImpl:jar:2.11.0:compile
+
+Keeping 
+- junit:junit:jar:4.5:test
+
+
+log4j is wierd.  If I ommit log4j, I get:
+
+[ERROR] Failed to execute goal on project mrt-zoopub-src: Could not resolve dependencies for project org.cdlib.mrt:mrt-zoopub-src:jar:1.0-SNAPSHOT: The following artifacts could not be resolved: javax.jms:jms:jar:1.1, com.sun.jdmk:jmxtools:jar:1.2.1, com.sun.jmx:jmxri:jar:1.2.1: Could not transfer artifact javax.jms:jms:jar:1.1 from/to java.net (https://maven-repository.dev.java.net/nonav/repository): No connector available to access repository java.net (https://maven-repository.dev.java.net/nonav/repository) of type legacy using the available factories WagonRepositoryConnectorFactory -> [Help 1]
+
+Info at https://crunchify.com/maven-artifacts-error-jms-jmxtools-jmxri-dependencies 
+suggests this is because of our version on zookeeper dependency:
+
+  By default log4j 2.15.0 version adds all above 3 dependencies. Same for 
+  zookeeper 3.3.2 version.  How to fix this this permanently?  There are two options.
+  
+  Option-1)
+  Just upgrade log4j and zookeeper to latest version. log4j 1.2.16 and 
+  zookeeper 3.4.9 doesn’t have these dependencies.
+  
+  Option-2.
+  Add below exclusions code to your project’s pom.xml file:
+        <exclusions>
+          <exclusion>
+            <groupId>com.sun.jmx</groupId>
+            <artifactId>jmxri</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.jdmk</groupId>
+            <artifactId>jmxtools</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+          </exclusion>
+        </exclusions>
+
+-->
 
 
 <!-- commented out dependencies
