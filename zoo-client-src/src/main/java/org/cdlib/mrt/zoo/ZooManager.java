@@ -61,6 +61,7 @@ public class ZooManager
     private static final String MESSAGE = NAME + ": ";
     private static final String NL = System.getProperty("line.separator");
     private static final boolean DEBUG = true;
+    private static boolean STARTUP = false;
     private LoggerInf logger = null;
     private Properties conf = null;
     //private Properties ingestProperties = null;
@@ -131,7 +132,12 @@ public class ZooManager
                 throw new TException.INVALID_OR_MISSING_PARM(
                     MESSAGE + "Exception MFrame properties not set");
             }
-
+            if (STARTUP) {
+                System.out.println(
+                    MESSAGE + "Startup in process when retry attempted");
+                return;
+            }
+            STARTUP = true;
             String key = null;
             String value = null;
             String matchQueueService = "QueueService";
@@ -159,7 +165,7 @@ public class ZooManager
                 }
 	    }
             if (DEBUG) System.out.println("Parms" + NL
-                    + " - " + PropertiesUtil.dumpProperties("zooparm", queueProperties) + NL
+                    + " - " + PropertiesUtil.dumpProperties("zooparm", conf) + NL
                     + " - queueConnectionString=" + queueConnectionString + NL
                     + " - queueNode=" + queueNode + NL
                     );
@@ -169,12 +175,17 @@ public class ZooManager
 
         } catch (TException tex) {
 	    throw tex;
+            
         } catch (Exception ex) {
             String msg = MESSAGE + " Exception:" + ex;
             logger.logError(msg, 3);
             logger.logError(StringUtil.stackTrace(ex), 0);
             throw new TException.GENERAL_EXCEPTION(msg);
+            
+        } finally {
+            STARTUP = false;
         }
+    
     }
     
     
