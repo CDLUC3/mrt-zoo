@@ -26,19 +26,20 @@
         </plugin>
     </plugins>
   </build>
+  
+    <dependencyManagement>
+        <dependencies>
+          <dependency>
+            <groupId>org.cdlib.mrt</groupId>
+            <artifactId>mrt-reflectoring-bom</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+          </dependency>
+        </dependencies>
+      </dependencyManagement>
 
   <dependencies>
-      <dependency>
-    	  <groupId>org.apache.zookeeper</groupId>
-          <artifactId>zookeeper</artifactId>
-          <version>3.5.5</version>
-      </dependency>
-      
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>1.1.3</version>
-      </dependency>
       
       <dependency>
           <groupId>org.cdlib.mrt</groupId>
@@ -51,6 +52,17 @@
           <artifactId>mrt-core</artifactId>
           <version>2.0-SNAPSHOT</version>
       </dependency>
+      
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+      </dependency>
+      
+      <dependency>
+    	  <groupId>org.apache.zookeeper</groupId>
+          <artifactId>zookeeper</artifactId>
+      </dependency>
+      
   </dependencies>
   
     <reporting>
