@@ -8,25 +8,6 @@
   <name>UC3-mrtZooPubSrc</name>
   <url>http://uc3.cdlib.org</url>
   
-  <!-- force UTF-8 -->
-  <properties>
-      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <build>
-    <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.0</version>
-          <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-          </configuration>
-        </plugin>
-    </plugins>
-  </build>
-  
     <dependencyManagement>
         <dependencies>
           <dependency>
@@ -37,7 +18,27 @@
             <scope>import</scope>
           </dependency>
         </dependencies>
-      </dependencyManagement>
+    </dependencyManagement> 
+       
+    <parent>
+        <groupId>org.cdlib.mrt</groupId>
+        <artifactId>mrt-parent-properties</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${maven.compiler.plugin.version}</version>
+            <configuration>
+                <source>${maven.compiler.plugin.java}</source>
+                <target>${maven.compiler.plugin.java}</target>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
 
   <dependencies>
       
@@ -58,17 +59,11 @@
           <artifactId>zookeeper</artifactId>
       </dependency>
       
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+        </dependency>
+
   </dependencies>
-  
-    <reporting>
-        <outputDirectory>/uc3qa/nexus34211/tomcat/webapps/report/mrt/core</outputDirectory>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.0.1</version>
-            </plugin>
-        </plugins>
-   </reporting>
 
 </project>
